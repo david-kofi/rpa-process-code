@@ -161,7 +161,7 @@ async function initialize() {
         console.log("MobileNet model loaded successfully.");
 
         // Start the Express server
-        app.listen(PORT, () => {
+        app.listen(PORT,'0.0.0.0', () => {
             console.log(`Server is running on port ${PORT}`);
         });
     } catch (err) {
