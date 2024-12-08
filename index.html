@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>Pinecone Vector Database Research</title>
+    
+<script src = "app.js"></script>     
+<script src="https://unpkg.com/@tensorflow/tfjs@3.0.0"></script>
+
+</head>
+
+<body>
+    <button id="begin-embedding">Publish Embeddings</button>
+    <input type="text" placeholder="Enter your search term here" id="queryResponse" />
+    <button id="perform-semantic-search">Perform Semantic Search</button>
+
+    <script>
+      /**  const { Pinecone } = require('@pinecone-database/pinecone');
+        const pc = new Pinecone({ apiKey: 'pcsk_33ucs9_DKggDFT8mT3miMN25r3VUBkaLVnCnCEqBZK2JPjizCg4DqhYtsArvbQXb4vtyjG' });
+        const model = "multilingual-e5-large";
+
+        document.getElementById('begin-embedding').addEventListener('click', async () => {
+            try {
+                const data = [
+    { "id": "med1", "text": "Paracetamol 500mg Tablets: Effective for relieving mild to moderate pain and reducing fever." },
+    { "id": "med2", "text": "Ibuprofen 200mg Tablets: Non-steroidal anti-inflammatory drug (NSAID) for pain relief and inflammation." },
+    { "id": "med3", "text": "Amoxicillin 500mg Capsules: Broad-spectrum antibiotic effective against bacterial infections." },
+    { "id": "med4", "text": "Cetirizine 10mg Tablets: Antihistamine used for treating allergies and hay fever." },
+    { "id": "med5", "text": "Metformin 500mg Tablets: First-line treatment for type 2 diabetes to manage blood sugar levels." },
+    { "id": "med6", "text": "Lisinopril 10mg Tablets: ACE inhibitor for managing high blood pressure and heart conditions." },
+    { "id": "med7", "text": "Salbutamol Inhaler: Bronchodilator used for quick relief of asthma and breathing difficulties." },
+    { "id": "med8", "text": "Omeprazole 20mg Capsules: Proton pump inhibitor for treating acid reflux and stomach ulcers." },
+    { "id": "med9", "text": "Taabea Herbal Mixture: Herbals" },
+    { "id": "med10", "text": "Calpol Infant: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med11", "text": "Calpol Sixplus: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med12", "text": "Samalin Junior: Cough And Cold Preparations" },
+    { "id": "med13", "text": "Vitamilk: Other" },
+    { "id": "med14", "text": "Efpac Junior: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med15", "text": "Perla: Other" },
+    { "id": "med16", "text": "Children'S Cough Syrup: Cough And Cold Preparations" },
+    { "id": "med17", "text": "E-Panol: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med18", "text": "Malta Guinness: Other" },
+    { "id": "med19", "text": "Cocktail: Provisions" },
+    { "id": "med20", "text": "E-Panol Strawberry Flavour: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med21", "text": "Blue Jeans: Provisions" },
+    { "id": "med22", "text": "Lexofen: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med23", "text": "Stopkof Child Formula: Cough And Cold Preparations" },
+    { "id": "med24", "text": "Calprofen: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med25", "text": "Fanta: Provisions" },
+    { "id": "med26", "text": "Amcof Infant: Cough And Cold Preparations" },
+    { "id": "med27", "text": "Calprofen Strawberry Sugar Free: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med28", "text": "Rox Energy Drink: Provisions" },
+    { "id": "med29", "text": "Klire Ibuprofen: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med30", "text": "Afric Yoghurt: Other" },
+    { "id": "med31", "text": "Mucolex Junior Expectorant: Cough And Cold Preparations" },
+    { "id": "med32", "text": "Venecare: Other" },
+    { "id": "med33", "text": "Selsun Daily: Other" },
+    { "id": "med34", "text": "Nurofen Children: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med35", "text": "Benylin Children Dry Cough: Cough And Cold Preparations" },
+    { "id": "med36", "text": "Lactulose Oral Solution: Other" },
+    { "id": "med37", "text": "Nurofen Children (Orange): Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med38", "text": "Benylin Infant'S Cough Syrup: Cough And Cold Preparations" },
+    { "id": "med39", "text": "Enafen: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med40", "text": "Blue Polar Ice Gel: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med41", "text": "Calcough Infant Syr: Cough And Cold Preparations" },
+    { "id": "med42", "text": "Atwood'S Laxative Bitters: Laxative" },
+    { "id": "med43", "text": "Sudocrem (Teva): Anti-Septic/Disinfectant" },
+    { "id": "med44", "text": "Tixylix Infant Cough: Cough And Cold Preparations" },
+    { "id": "med45", "text": "Bells Baby Teething Mixture: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med46", "text": "Time Herbal Mixture: Anti-Malarial" },
+    { "id": "med47", "text": "Menthodex Cough: Cough And Cold Preparations" },
+    { "id": "med48", "text": "Teedar Syrup: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med49", "text": "Sivoderm: Anti-Septic/Disinfectant" },
+    { "id": "med50", "text": "Imboost Herbal: Herbals" },
+    { "id": "med51", "text": "Abc Teething Mixture: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med52", "text": "Betasol Lotion: Cosmetics" },
+    { "id": "med53", "text": "Adult Chesty/Expectorant(Luex): Cough And Cold Preparations" },
+    { "id": "med54", "text": "Alka 5 Syrup: Herbals" },
+    { "id": "med55", "text": "Rooter Mixture: Herbals" },
+    { "id": "med56", "text": "Benylin Dry Cough: Cough And Cold Preparations" },
+    { "id": "med57", "text": "Ashton & Parsons Teething Powder: Analgesics, Painkillers, Arthritic Agents" },
+    { "id": "med58", "text": "F A C Mixture: Hematinics" },
+    { "id": "med59", "text": "Mist Magnesium Trisilicate: Antacid, Anti Ulcer, Antiflatulent" },
+    { "id": "med60", "text": "Luex Baby Cough Syrup (4Months-5Years): Cough And Cold Preparations" }
+]
+;
+                const embeddings = await pc.inference.embed(
+                    model,
+                    data.map(d => d.text),
+                    { inputType: 'passage', truncate: 'END' }
+                );
+
+                const indexName = 'adv-vector-research';
+                await pc.createIndex({
+                    name: indexName,
+                    dimension: embeddings[0].values.length,
+                    metric: 'cosine',
+                    spec: {
+                        serverless: {
+                            cloud: 'aws',
+                            region: 'us-east-1'
+                        }
+                    }
+                });
+
+                const index = pc.index(indexName);
+                const records = data.map((d, i) => ({
+                    id: d.id,
+                    values: embeddings[i].values,
+                    metadata: { text: d.text }
+                }));
+                console.log('Waiting for index to be ready...');
+                await new Promise(resolve => setTimeout(resolve, 10000));
+                await index.upsert(records);
+                console.log('Embeddings successfully upserted!');
+            } catch (error) {
+                console.error('Error during processing:', error.response || error.message);
+            }
+        });
+
+        document.getElementById('perform-semantic-search').addEventListener('click', async () => {
+            const search_word = document.getElementById('queryResponse').value;
+
+            if (!search_word.trim()) {
+                console.error('Search term cannot be empty!');
+                return;
+            }
+
+            try {
+                const queryEmbedding = await pc.inference.embed(
+                    model,
+                    [search_word],
+                    { inputType: 'query' }
+                );
+
+                const index = pc.index('adv-vector-research');
+
+                const queryResponse = await index.query({
+                    topK: 10,
+                    vector: queryEmbedding[0].values,
+                    includeValues: true,
+                    includeMetadata: true
+                });
+                console.log('search term used : ', search_word);
+                console.log('Embedding generated for the term above : ', queryEmbedding[0].values);
+                console.log('Found similar entries:', queryResponse);
+            } catch (error) {
+                console.error('Error during semantic search:', error.response || error.message);
+            }
+        });*/
+    </script>
+
+</body>
+</html>
